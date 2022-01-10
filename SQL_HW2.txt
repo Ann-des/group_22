@@ -18,32 +18,38 @@ select employee_name, monthly_salary from employees
 full outer join employees_salary on employees.id = employees_salary.employee_id where monthly_salary is null;
 
 -- 6. Вывести всех работников с названиями их должности.
-select employee_name, role_name from employees 
-inner join roles on employees.id = roles.id;
+select employees.id, employee_name, role_name from employees 
+inner join roles_employees on employees.id = roles_employees.employee_id 
+inner join roles on roles.id = roles_employees.role_id;
 
 -- 7. Вывести имена и должность только Java разработчиков.
-select employee_name, role_name from employees 
-inner join roles on employees.id = roles.id 
-where role_name like '%Java%';
+select employees.id, employee_name, role_name from employees 
+inner join roles_employees on employees.id = roles_employees.employee_id 
+inner join roles on roles.id = roles_employees.role_id
+where role_name like '%Java dev%';
 
 -- 8.Вывести имена и должность только Python разработчиков.
-select employee_name, role_name from employees 
-inner join roles on employees.id = roles.id 
+select employees.id, employee_name, role_name from employees 
+inner join roles_employees on employees.id = roles_employees.employee_id 
+inner join roles on roles.id = roles_employees.role_id
 where role_name like '%Python%';
 
 -- 9. Вывести имена и должность всех QA инженеров.
-select employee_name, role_name from employees 
-inner join roles on employees.id = roles.id 
+select employees.id, employee_name, role_name from employees 
+inner join roles_employees on employees.id = roles_employees.employee_id 
+inner join roles on roles.id = roles_employees.role_id
 where role_name like '%QA%';
 
 -- 10. Вывести имена и должность ручных QA инженеров.
-select employee_name, role_name from employees 
-inner join roles on employees.id = roles.id 
+select employees.id, employee_name, role_name from employees 
+inner join roles_employees on employees.id = roles_employees.employee_id 
+inner join roles on roles.id = roles_employees.role_id
 where role_name like '%Manual QA%';
 
 -- 11. Вывести имена и должность автоматизаторов QA
-select employee_name, role_name from employees 
-inner join roles on employees.id = roles.id 
+select employees.id, employee_name, role_name from employees 
+inner join roles_employees on employees.id = roles_employees.employee_id 
+inner join roles on roles.id = roles_employees.role_id
 where role_name like '%Automation QA%';
 
 - 12. Вывести имена и зарплаты Junior специалистов
@@ -131,15 +137,24 @@ inner join roles on roles.id = roles_employees.role_id
 where role_name like '%QA%';
 
 --25. Вывести количество QA инженеров
-select count(role_name) from roles
-where role_name like '%QA%'; 
+select count(employees.employee_name) from employees
+inner join employees_salary on employees_salary.employee_id = employees.id
+inner join roles_employees on roles_employees.employee_id = employees.id
+inner join roles on roles_employees.role_id = roles.id
+where role_name like '%QA%';
 
 --26. Вывести количество Middle специалистов.
-select count(role_name) from roles
-where role_name like '%Middle%'; 
+select count(employees.employee_name) from employees
+inner join employees_salary on employees_salary.employee_id = employees.id
+inner join roles_employees on roles_employees.employee_id = employees.id
+inner join roles on roles_employees.role_id = roles.id
+where role_name like '%Middle%';
 
 --27. Вывести количество разработчиков
-select count(role_name) from roles
+select count(employees.employee_name) from employees
+inner join employees_salary on employees_salary.employee_id = employees.id
+inner join roles_employees on roles_employees.employee_id = employees.id
+inner join roles on roles_employees.role_id = roles.id
 where role_name like '%developer%'; 
 
 --28. Вывести фонд (сумму) зарплаты разработчиков.
